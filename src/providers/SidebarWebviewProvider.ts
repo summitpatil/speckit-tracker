@@ -121,11 +121,11 @@ export class SidebarWebviewProvider implements vscode.WebviewViewProvider {
     --warn: #e8c94c;
     --warn-dim: rgba(232, 201, 76, 0.15);
     --muted: var(--vscode-descriptionForeground);
-    --border: var(--vscode-widget-border, rgba(255,255,255,0.08));
+    --border: var(--vscode-widget-border, var(--vscode-panel-border, rgba(128,128,128,0.2)));
     --card-bg: var(--vscode-editor-background);
     --card-hover: var(--vscode-list-hoverBackground);
-    --input-bg: var(--vscode-input-background, #2a2a2a);
-    --input-border: var(--vscode-input-border, rgba(255,255,255,0.1));
+    --input-bg: var(--vscode-input-background);
+    --input-border: var(--vscode-input-border, var(--vscode-widget-border, rgba(128,128,128,0.3)));
     --input-fg: var(--vscode-input-foreground, inherit);
     --radius: 8px;
   }
@@ -160,11 +160,9 @@ export class SidebarWebviewProvider implements vscode.WebviewViewProvider {
     font-weight: 600;
     appearance: none;
     cursor: pointer;
-    outline: none;
     transition: border-color 0.15s;
   }
-  .project-select:hover,
-  .project-select:focus {
+  .project-select:hover {
     border-color: var(--accent);
   }
   .project-select-arrow {
@@ -649,6 +647,13 @@ export class SidebarWebviewProvider implements vscode.WebviewViewProvider {
     if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
       e.preventDefault();
       e.target.click();
+    }
+    if (e.key === 'Escape' && e.target === searchInput && searchTerm) {
+      e.preventDefault();
+      searchInput.value = '';
+      searchTerm = '';
+      if (clearBtn) clearBtn.style.display = 'none';
+      applyFilter();
     }
   });
 
