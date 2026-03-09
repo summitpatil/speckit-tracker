@@ -1,0 +1,136 @@
+{
+  "name": "speckit-tracker",
+  "displayName": "SpecKit - Spec-Driven Development Tracker",
+  "description": "Visual dashboard for tracking feature progress through the Spec-Driven Development lifecycle. Monitor specifications, plans, tasks, and checklists across your projects.",
+  "version": "1.0.0",
+  "publisher": "summitpatil",
+  "license": "MIT",
+  "icon": "resources/icons/speckit-icon.png",
+  "author": {
+    "name": "Sumit Patil",
+    "url": "https://github.com/summitpatil"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/summitpatil/speckit-tracker"
+  },
+  "bugs": {
+    "url": "https://github.com/summitpatil/speckit-tracker/issues"
+  },
+  "homepage": "https://github.com/summitpatil/speckit-tracker#readme",
+  "galleryBanner": {
+    "color": "#1a1a2e",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other",
+    "Visualization"
+  ],
+  "keywords": [
+    "spec-driven",
+    "spec-kit",
+    "speckit",
+    "development-workflow",
+    "project-management"
+  ],
+  "activationEvents": [
+    "workspaceContains:.specify",
+    "workspaceContains:specs"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "speckit-sidebar",
+          "title": "Spec-Kit",
+          "icon": "resources/icons/speckit.svg"
+        }
+      ]
+    },
+    "views": {
+      "speckit-sidebar": [
+        {
+          "type": "webview",
+          "id": "speckit-panel",
+          "name": "Spec-Kit"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "speckit.refresh",
+        "title": "Refresh",
+        "category": "Spec-Kit",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "speckit.openFile",
+        "title": "Open File",
+        "category": "Spec-Kit",
+        "icon": "$(go-to-file)"
+      },
+      {
+        "command": "speckit.newFeature",
+        "title": "New Feature",
+        "category": "Spec-Kit",
+        "icon": "$(add)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "speckit.newFeature",
+          "when": "view == speckit-panel",
+          "group": "navigation"
+        },
+        {
+          "command": "speckit.refresh",
+          "when": "view == speckit-panel",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "SpecKit",
+      "properties": {
+        "speckit.pageSize": {
+          "type": "number",
+          "default": 10,
+          "minimum": 1,
+          "maximum": 100,
+          "description": "Number of features to show before the 'Show More' button appears."
+        },
+        "speckit.autoRefresh": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically refresh the sidebar when spec files change."
+        },
+        "speckit.showStatusBar": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the SpecKit status bar item with active project and feature."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src/",
+    "package": "npx @vscode/vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^8.56.1",
+    "@typescript-eslint/parser": "^8.56.1",
+    "@vscode/vsce": "^3.0.0",
+    "eslint": "^10.0.3",
+    "typescript": "^5.3.0"
+  }
+}
