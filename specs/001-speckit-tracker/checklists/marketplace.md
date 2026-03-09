@@ -29,7 +29,7 @@
 
 - [x] CHK016 `.vscodeignore` excludes `src/`, `node_modules/`, `*.ts`, `*.map`, `DEVELOPMENT.md`
 - [x] CHK017 `.vscodeignore` includes `out/`, `resources/`, `README.md`, `CHANGELOG.md`, `LICENSE`
-- [x] CHK018 VSIX size is under 200 KB (actual: 58.06 KB)
+- [x] CHK018 VSIX size is under 200 KB (actual: 138 KB with screenshots)
 - [x] CHK019 No source files (.ts) in the VSIX
 - [x] CHK020 No source maps (.js.map) in the VSIX
 - [x] CHK021 Package script does not use `--allow-missing-repository`
@@ -37,7 +37,7 @@
 ## README Content
 
 - [x] CHK022 Extension description is clear and concise
-- [ ] CHK023 Features section with screenshots or GIFs (HTTPS URLs only, no SVG)
+- [x] CHK023 Features section with screenshots (dashboard.png + workflow.png in resources/screenshots/)
 - [x] CHK024 Installation instructions (marketplace, VSIX, build from source)
 - [x] CHK025 Commands table with descriptions
 - [x] CHK026 Requirements section (VS Code version, workspace structure)

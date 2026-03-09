@@ -4,6 +4,8 @@ Visual sidebar extension for **Spec-Driven Development** in VS Code, Cursor, and
 
 Track feature specifications, implementation plans, tasks, and checklists across multiple projects — all from a dedicated activity bar panel.
 
+![SpecKit Dashboard](resources/screenshots/dashboard.png)
+
 ## Features
 
 ### Multi-Project Support
@@ -21,6 +23,9 @@ Track feature specifications, implementation plans, tasks, and checklists across
 - Real-time parsing of `- [x]` / `- [ ]` checkboxes in tasks.md and checklists
 
 ### Workflow Pipeline
+
+![SpecKit Workflow Pipeline](resources/screenshots/workflow.png)
+
 8 stages visualized as a vertical timeline with color-coded dots:
 
 | Stage | Command | Key Artifacts |
