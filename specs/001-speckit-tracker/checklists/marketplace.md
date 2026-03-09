@@ -1,6 +1,6 @@
 # Marketplace Readiness Checklist: SpecKit Tracker
 
-**Purpose**: Verify all requirements for VS Code Marketplace publishing are met
+**Purpose**: Verify all requirements for marketplace publishing are met
 **Created**: 2026-03-09
 **Feature**: [spec.md](../spec.md) — User Story 7
 
@@ -56,9 +56,9 @@
 
 - [x] CHK034 GitHub repository created at `summitpatil/speckit-tracker`
 - [x] CHK035 CI workflow: lint + compile on push/PR
-- [x] CHK036 Publish workflow: auto-publish on version tag
-- [ ] CHK037 VS Code Marketplace publisher account created for `summitpatil`
-- [ ] CHK038 Personal Access Token (PAT) configured as GitHub secret for publishing
+- [x] CHK036 Publish workflow: auto-publish on version tag (Open VSX + VS Code Marketplace)
+- [x] CHK037 Open VSX Registry account created for `summitpatil` at https://open-vsx.org
+- [ ] CHK038 Access token configured as GitHub secret (`OVSX_PAT`) for publishing
 
 ## Pre-Publish Verification
 
@@ -67,12 +67,12 @@
 - [x] CHK041 Extension activates in a fresh workspace with `specs/` (installed successfully, activation events configured)
 - [x] CHK042 All commands work (Refresh, New Feature, Open File) — registered in package.json and extension.ts
 - [x] CHK043 Sidebar renders correctly in dark and light themes — all CSS uses `var(--vscode-*)` with neutral fallbacks
-- [ ] CHK044 `vsce publish` completes successfully
-- [ ] CHK045 Extension appears in marketplace search for "speckit"
+- [ ] CHK044 `ovsx publish` completes successfully
+- [ ] CHK045 Extension appears in Open VSX search for "speckit"
 
 ## Notes
 
-- Publisher account creation requires a Microsoft Azure DevOps organization
-- PAT must have "Marketplace (Manage)" scope
-- First publish requires `vsce create-publisher summitpatil` if not already created
-- Badges should only use [approved badge providers](https://code.visualstudio.com/api/references/extension-manifest#approved-badges)
+- Open VSX account created via GitHub OAuth at https://open-vsx.org
+- Generate an access token at https://open-vsx.org/user-settings/tokens
+- Add as `OVSX_PAT` GitHub secret for CI/CD auto-publishing
+- For VS Code Marketplace (optional): create publisher at https://marketplace.visualstudio.com/manage and add `VSCE_PAT` secret
