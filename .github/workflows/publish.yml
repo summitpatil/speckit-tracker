@@ -20,12 +20,12 @@ jobs:
 
       - name: Publish to Open VSX
         if: env.OVSX_PAT != ''
-        run: npx ovsx publish *.vsix -p ${{ secrets.OVSX_PAT }}
+        run: npx ovsx publish *.vsix -p ${{ secrets.OVSX_PAT }} || echo "::warning::Open VSX publish skipped (version may already exist)"
         env:
           OVSX_PAT: ${{ secrets.OVSX_PAT }}
 
       - name: Publish to VS Code Marketplace
         if: env.VSCE_PAT != ''
-        run: npx @vscode/vsce publish -p ${{ secrets.VSCE_PAT }}
+        run: npx @vscode/vsce publish -p ${{ secrets.VSCE_PAT }} || echo "::warning::VS Code Marketplace publish skipped (version may already exist)"
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
