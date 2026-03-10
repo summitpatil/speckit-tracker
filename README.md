@@ -50,9 +50,13 @@ Track feature specifications, implementation plans, tasks, and checklists across
 
 ## Installation
 
-### Option 1: VS Code Marketplace
+### Option 1: Open VSX (Cursor, VSCodium)
 
-Search for **"SpecKit"** in the Extensions sidebar, or install from the command line:
+Install from the [Open VSX Registry](https://open-vsx.org/extension/summitpatil/speckit-tracker):
+
+- **Open VSX:** https://open-vsx.org/extension/summitpatil/speckit-tracker
+
+Search for **"SpecKit"** in the Extensions sidebar in Cursor or VSCodium, or install by ID:
 
 ```bash
 code --install-extension summitpatil.speckit-tracker
