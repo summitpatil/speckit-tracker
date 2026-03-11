@@ -54,7 +54,7 @@
 - [x] T015 [US1] Implement `parseStages()` — check file existence for each of the 8 stages
 - [x] T016 [US1] Implement `getSpecStatus()` — detect `[FEATURE NAME]` / `[Brief Title]` placeholders in spec.md
 - [x] T017 [US1] Implement `hasClarificationSection()` — detect `## Clarifications` heading
-- [x] T018 [US1] Implement `parseTaskProgress()` — count `- [x]` and `- [ ]` patterns
+- [x] T018 [US1] Implement `parseTaskProgress()` — count completed and pending checkbox patterns in markdown
 - [x] T019 [US1] Implement `parseChecklistDir()` — iterate `checklists/*.md` with progress
 - [x] T020 [US1] Implement `computeOverallProgress()` — count complete stages out of total
 - [x] T021 Create `src/providers/SidebarWebviewProvider.ts` with `resolveWebviewView()`
@@ -191,7 +191,7 @@
 - [x] T074 [US7] Initialize git repo, create GitHub repo at `summitpatil/speckit-tracker`, push code
 - [x] T075 [P] [US7] Create `.github/workflows/ci.yml` — lint, compile, package on push/PR
 - [x] T076 [P] [US7] Create `.github/workflows/publish.yml` — auto-publish to marketplace on version tag
-- [ ] T077 [US7] Create publisher account on VS Code Marketplace, generate PAT, run `vsce publish`
+- [x] T077 [US7] Create publisher account on VS Code Marketplace, generate PAT, run `vsce publish` — N/A: published on Open VSX; VS Code Marketplace optional
 
 **Checkpoint**: Extension is live on the VS Code Marketplace. CI/CD runs on push.
 
@@ -244,6 +244,6 @@ Phases 1 through 6 represent the original v0.3.0 state. All tasks are marked `[x
 
 ### Pre-Publish (Phases 7–10) — Complete
 
-All code tasks are complete. Two manual tasks remain:
-- T074: Initialize git repo and push to GitHub (requires manual repo creation)
-- T077: Create publisher account and run `vsce publish` (requires PAT)
+### Pre-Publish (Phases 7–10) — Complete
+
+All tasks complete. T074 (GitHub repo) and T077 (publishing) done; T077 closed as N/A for VS Code Marketplace (published on Open VSX).

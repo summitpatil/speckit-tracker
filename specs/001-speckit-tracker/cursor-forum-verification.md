@@ -90,7 +90,7 @@ Visual sidebar for Spec-Driven Development: track specs, plans, tasks, and check
 ## After filling
 
 - Click **"+ Create Topic"**.
-- Optionally mark **CHK047** in `checklists/marketplace.md` when the topic is published.
+- **Done:** Topic created 2026-03-10 → [Request verification for SpecKit - Spec-Driven Development Tracker](https://forum.cursor.com/t/request-verification-for-speckit-spec-driven-development-tracker/154227)
 
 ---
 
