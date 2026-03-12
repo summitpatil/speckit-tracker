@@ -2,7 +2,7 @@
   "name": "speckit-tracker",
   "displayName": "SpecKit - Spec-Driven Development Tracker",
   "description": "Visual dashboard for tracking feature progress through the Spec-Driven Development lifecycle. Monitor specifications, plans, tasks, and checklists across your projects.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "summitpatil",
   "license": "MIT",
   "icon": "resources/icons/speckit-icon.png",

@@ -88,8 +88,12 @@ export class SpecParser {
     const name = match ? match[2].replace(/-/g, ' ') : dirName;
 
     const stages = this.parseStages(featureDir);
-    const overallProgress = this.computeOverallProgress(stages);
-
+    let overallProgress = this.computeOverallProgress(stages);
+    const tasksStage = stages.find(s => s.stage === WorkflowStage.Tasks);
+    const tasksProgress = tasksStage?.artifacts?.[0]?.progress;
+    if (tasksProgress && tasksProgress.percentage === 100) {
+      overallProgress = { total: stages.length, completed: stages.length, percentage: 100 };
+    }
     return {
       name,
       number,

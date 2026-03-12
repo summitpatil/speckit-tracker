@@ -5,6 +5,12 @@
 **Status**: In Progress
 **Input**: User description: "Build a VS Code extension that provides a visual sidebar dashboard for tracking feature progress through the Spec-Driven Development lifecycle. Support multi-project workspaces, feature search, lazy loading, new feature creation, and publish to the VS Code Marketplace under the summitpatil publisher."
 
+## Clarifications
+
+### Session 2026-03-10
+
+- Q: If the tasks are completed from the feature, should we consider the percentage as done? → A: Yes. When all tasks in `tasks.md` for a feature are complete (100%), the feature's overall progress SHALL be considered done and displayed as 100%.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 — Visual Development Dashboard (Priority: P1)
@@ -150,6 +156,7 @@ The extension is published to the VS Code Marketplace under publisher `summitpat
 - **FR-011**: The extension MUST auto-refresh when files in `specs/`, `checklists/`, `contracts/`, `.specify/memory/constitution.md`, or `.git/HEAD` change.
 - **FR-012**: The extension MUST provide a "New Feature" command that creates a feature directory and spec file.
 - **FR-013**: The extension MUST display a status bar item showing the active project, feature, and progress percentage.
+- **FR-013a**: The feature overall progress percentage MUST be 100% when all tasks in `tasks.md` are complete (so that "tasks done" is treated as "feature done" for display).
 - **FR-014**: The extension MUST provide configurable settings for page size, auto-refresh, and status bar visibility.
 - **FR-015**: All interactive WebView elements MUST be keyboard-accessible with `role`, `tabindex`, and `keydown` handlers.
 - **FR-016**: The extension MUST include a `LICENSE` (MIT), `CHANGELOG.md`, and complete marketplace metadata in `package.json`.
@@ -160,7 +167,7 @@ The extension is published to the VS Code Marketplace under publisher `summitpat
 - **Feature**: A directory under `specs/` matching the pattern `###-feature-name`. Contains stages, artifacts, and an overall progress score.
 - **Stage**: One of the 8 Spec-Kit workflow stages (Constitution, Specify, Clarify, Plan, Tasks, Checklist, Analyze, Implement). Has a status, label, description, optional file path, and child artifacts.
 - **Artifact**: A file or directory within a feature directory (e.g. `spec.md`, `plan.md`, `contracts/`). Has existence status and optional progress (completed/total checkboxes).
-- **Progress**: A triple of `{ total, completed, percentage }` computed from checkbox parsing or stage completion counting.
+- **Progress**: A triple of `{ total, completed, percentage }` computed from checkbox parsing or stage completion counting. The **feature overall progress percentage** SHALL be 100% when all tasks in `tasks.md` are complete, so that a feature with all tasks done is displayed as done regardless of stage completion counts.
 
 ## Success Criteria *(mandatory)*
 
