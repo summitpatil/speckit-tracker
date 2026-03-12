@@ -2,6 +2,23 @@
 
 All notable changes to the **SpecKit - Spec-Driven Development Tracker** extension will be documented in this file.
 
+## [1.0.1] - 2026-03-10
+
+### Added
+- **Feature progress = 100% when all tasks complete**: If every task in `tasks.md` is checked, the feature’s overall progress is shown as 100% (done), regardless of stage completion (spec clarification + parser update).
+- Open VSX as primary install option in README with direct link to the registry.
+- Cursor forum verification guide (`cursor-forum-verification.md`) aligned with the Extension Verification form (brief sentence, TLD, OpenVSX URL, website link, screenshot).
+- Marketplace checklist (`checklists/marketplace.md`) converted to checkbox format so the sidebar shows correct progress (e.g. 47/47).
+
+### Changed
+- Publish workflow (`.github/workflows/publish.yml`): duplicate version publish no longer fails the job; logs a warning and continues.
+- Task T018 description in `tasks.md` rephrased so the parser doesn’t count literal `- [x]` / `- [ ]` in the text (fixes spurious “1 task remaining”).
+- Spec: added Clarifications (Session 2026-03-10), FR-013a, and Progress entity rule for “tasks done ⇒ feature done”.
+
+### Fixed
+- Sidebar task count: 86/86 when all tasks are complete (no false pending from T018 text).
+- Checklist stage: `marketplace.md` now contributes to checks total and can show complete.
+
 ## [1.0.0] - 2026-03-09
 
 ### Added
