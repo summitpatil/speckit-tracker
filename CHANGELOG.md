@@ -2,7 +2,7 @@
 
 All notable changes to the **SpecKit - Spec-Driven Development Tracker** extension will be documented in this file.
 
-## [Unreleased]
+## [1.0.2] - 2026-04-28
 
 ### Changed
 - Workflow visualization now uses **7 stages** (Constitution → Implement). The **Analyze** stage was removed because `/speckit.analyze` is chat-only and did not map to durable repo artifacts.
