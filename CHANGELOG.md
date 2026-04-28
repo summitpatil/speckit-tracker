@@ -2,6 +2,11 @@
 
 All notable changes to the **SpecKit - Spec-Driven Development Tracker** extension will be documented in this file.
 
+## [1.0.3] - 2026-04-28
+
+### Changed
+- Align extension package versioning with post-merge release tagging so Open VSX/Marketplace publishes map cleanly to git releases.
+
 ## [1.0.2] - 2026-04-28
 
 ### Changed
