@@ -293,7 +293,7 @@ function updateStatusBar(): void {
 
   const pct = active.overallProgress.percentage;
   statusBarItem.text = `$(file-code) ${project.name} / ${active.branchName} ${pct}%`;
-  statusBarItem.tooltip = `Project: ${project.name}\nFeature: ${active.branchName}\n${active.overallProgress.completed}/${active.overallProgress.total} stages`;
+  statusBarItem.tooltip = `Project: ${project.name}\nFeature: ${active.branchName}\n${active.overallProgress.completed}/${active.overallProgress.total} complete`;
   statusBarItem.show();
 }
 

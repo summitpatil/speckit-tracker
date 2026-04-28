@@ -32,7 +32,7 @@
 - [x] CHK021 Artifact rows (non-missing) have `role="button"` attribute
 - [x] CHK022 Missing artifact rows have `aria-disabled="true"`
 - [x] CHK023 Progress ring SVGs have `aria-hidden="true"` (decorative)
-- [x] CHK024 Progress ring parent containers have `aria-label` (e.g. "Stages: 3 of 8 complete")
+- [x] CHK024 Progress ring parent containers have `aria-label` (e.g. "Stages: 3 of 7 complete")
 - [x] CHK025 Stage badges ("DONE", "WIP") have `aria-label` or are announced as part of parent label
 - [x] CHK026 Feature count label is live-announced on search filter (`aria-live="polite"`)
 - [x] CHK027 "No matching features" message has `role="status"` or `aria-live="polite"`

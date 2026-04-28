@@ -44,7 +44,7 @@ The dashboard needs to show completion progress for Stages (X/8), Tasks (X/Y), a
 
 | Option | Pros | Cons |
 |--------|------|------|
-| **A. Text only** ("3/8 stages") | Simplest; accessible by default | Not visual; requires reading numbers; doesn't convey proportion |
+| **A. Text only** ("3/7 stages") | Simplest; accessible by default | Not visual; requires reading numbers; doesn't convey proportion |
 | **B. SVG donut rings** | Immediate visual proportion; compact; professional look | More code; must handle 0% and 100% edge cases; needs aria-label for accessibility |
 | **C. CSS-only progress bars** | Simple implementation; native feeling | Takes more horizontal space; less compact than rings; less visually distinctive |
 

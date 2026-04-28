@@ -51,7 +51,7 @@
 
 - [x] T013 Create `src/parsers/specParser.ts` with `parseWorkspace()` method
 - [x] T014 [US1] Implement `parseFeature()` — read directory name, extract number and name
-- [x] T015 [US1] Implement `parseStages()` — check file existence for each of the 8 stages
+- [x] T015 [US1] Implement `parseStages()` — check file existence for each of the 7 stages
 - [x] T016 [US1] Implement `getSpecStatus()` — detect `[FEATURE NAME]` / `[Brief Title]` placeholders in spec.md
 - [x] T017 [US1] Implement `hasClarificationSection()` — detect `## Clarifications` heading
 - [x] T018 [US1] Implement `parseTaskProgress()` — count completed and pending checkbox patterns in markdown
@@ -164,7 +164,7 @@
 - [x] T060 [US6] Add `keydown` event listener in WebView JS: Enter/Space on focused `[role="button"]` triggers click
 - [x] T061 [US6] Add `aria-label` to search input (`"Search features"`), project select (`"Select project"`), new feature button, refresh button
 - [x] T062 [US6] Add `aria-hidden="true"` to decorative SVG elements in progress rings
-- [x] T063 [US6] Add `aria-label` to progress ring containers (e.g. `"Stages: 3 of 8 complete"`)
+- [x] T063 [US6] Add `aria-label` to progress ring containers (e.g. `"Stages: 3 of 7 complete"`)
 - [x] T064 [US6] Add visible `:focus-visible` CSS styles (outline or border) for all focusable elements
 - [x] T065 [US6] Audit and replace hardcoded color values (#e8843c, #4ec9b0, #e8c94c) with CSS custom properties that derive from `--vscode-*` variables where possible
 - [x] T066 [US6] Test in VS Code light theme, dark theme, and high-contrast dark theme; fix any rendering issues

@@ -183,7 +183,7 @@ Defines all data structures. No logic. Key types:
 | Type | Purpose |
 |------|---------|
 | `StageStatus` | Enum: not-started, in-progress, complete, skipped |
-| `WorkflowStage` | Enum: constitution, specify, clarify, plan, tasks, checklist, analyze, implement |
+| `WorkflowStage` | Enum: constitution, specify, clarify, plan, tasks, checklist, implement |
 | `StageInfo` | One workflow stage with status, file path, and nested artifacts |
 | `ArtifactInfo` | One file (e.g., `plan.md`) with existence flag and optional progress |
 | `ProgressInfo` | `{ total, completed, percentage }` |
@@ -285,7 +285,6 @@ The `SpecParser` determines stage status by checking file existence:
 | Plan | `plan.md` exists? + `research.md`, `data-model.md`, `quickstart.md`, `contracts/` |
 | Tasks | `tasks.md` exists? Parse `[x]`/`[ ]` for progress |
 | Checklist | `checklists/` directory has `.md` files? Parse each for progress |
-| Analyze | Always "not started" (it's a read-only report, no file artifact) |
 | Implement | Task progress > 0? All tasks complete? |
 
 ### Progress Parsing

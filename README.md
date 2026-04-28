@@ -26,7 +26,7 @@ Track feature specifications, implementation plans, tasks, and checklists across
 
 ![SpecKit Workflow Pipeline](resources/screenshots/workflow.png)
 
-8 stages visualized as a vertical timeline with color-coded dots:
+7 stages visualized as a vertical timeline with color-coded dots:
 
 | Stage | Command | Key Artifacts |
 |-------|---------|---------------|
@@ -36,7 +36,6 @@ Track feature specifications, implementation plans, tasks, and checklists across
 | Plan | `/speckit.plan` | `plan.md`, `research.md`, `data-model.md`, `quickstart.md`, `contracts/` |
 | Tasks | `/speckit.tasks` | `tasks.md` |
 | Checklist | `/speckit.checklist` | `checklists/*.md` |
-| Analyze | `/speckit.analyze` | Report only (read-only) |
 | Implement | `/speckit.implement` | Code + task completion tracking |
 
 ### Additional

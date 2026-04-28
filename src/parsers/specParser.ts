@@ -91,8 +91,12 @@ export class SpecParser {
     let overallProgress = this.computeOverallProgress(stages);
     const tasksStage = stages.find(s => s.stage === WorkflowStage.Tasks);
     const tasksProgress = tasksStage?.artifacts?.[0]?.progress;
-    if (tasksProgress && tasksProgress.percentage === 100) {
-      overallProgress = { total: stages.length, completed: stages.length, percentage: 100 };
+    if (tasksProgress && tasksProgress.total > 0) {
+      overallProgress = {
+        total: tasksProgress.total,
+        completed: tasksProgress.completed,
+        percentage: tasksProgress.percentage,
+      };
     }
     return {
       name,
@@ -191,15 +195,6 @@ export class SpecParser {
       description: 'Quality checklists',
       filePath: checklistsDir,
       artifacts: checklistArtifacts,
-    });
-
-    // Analyze (read-only report, no file)
-    stages.push({
-      stage: WorkflowStage.Analyze,
-      label: 'Analyze',
-      status: StageStatus.NotStarted,
-      description: 'Cross-artifact consistency analysis',
-      artifacts: [],
     });
 
     // Implement

@@ -19,7 +19,7 @@ Represents the completion state of a workflow stage.
 
 ### WorkflowStage
 
-The 8 stages of the Spec-Kit development lifecycle, in execution order.
+The 7 stages of the Spec-Kit development lifecycle, in execution order.
 
 | Value | Label | Primary Artifact | Detection Logic |
 |-------|-------|-----------------|-----------------|
@@ -29,7 +29,6 @@ The 8 stages of the Spec-Kit development lifecycle, in execution order.
 | `plan` | Plan | `plan.md` + `research.md` + `data-model.md` + `quickstart.md` + `contracts/` | All exist → complete; some → in-progress |
 | `tasks` | Tasks | `tasks.md` | File exists → status based on checkbox completion |
 | `checklist` | Checklist | `checklists/*.md` | Any `.md` files in dir → status based on checkbox completion |
-| `analyze` | Analyze | None (read-only report) | Always `not-started` (no persistent artifact) |
 | `implement` | Implement | None (tracks `tasks.md` completion) | All tasks done → complete; some → in-progress |
 
 ## Interfaces
@@ -65,7 +64,7 @@ interface ArtifactInfo {
 
 ### StageInfo
 
-Represents one of the 8 workflow stages for a specific feature.
+Represents one of the 7 workflow stages for a specific feature.
 
 ```typescript
 interface StageInfo {
@@ -94,7 +93,7 @@ interface FeatureInfo {
   number: string;           // Zero-padded 3-digit: "002"
   branchName: string;       // Full dir name: "002-api-migration-utilities"
   specDir: string;          // Absolute path to the feature directory
-  stages: StageInfo[];      // Array of 8 StageInfo objects
+  stages: StageInfo[];      // Array of 7 StageInfo objects
   overallProgress: ProgressInfo;  // Stages completed out of total stages
 }
 ```
@@ -153,7 +152,7 @@ MultiProjectState
               └── FeatureInfo[]     (1:N — one per specs/###-*/ directory)
                     ├── name, number, branchName, specDir
                     ├── overallProgress: ProgressInfo
-                    └── StageInfo[]  (always 8 — one per WorkflowStage)
+                    └── StageInfo[]  (always 7 — one per WorkflowStage)
                           ├── stage, label, status, description, filePath
                           └── ArtifactInfo[]  (0:N — files/dirs for this stage)
                                 ├── name, filePath, exists

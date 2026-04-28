@@ -12,7 +12,6 @@ export enum WorkflowStage {
   Plan = 'plan',
   Tasks = 'tasks',
   Checklist = 'checklist',
-  Analyze = 'analyze',
   Implement = 'implement',
 }
 
