@@ -10,12 +10,13 @@
 ### Session 2026-03-10
 
 - Q: If the tasks are completed from the feature, should we consider the percentage as done? → A: Yes. When all tasks in `tasks.md` for a feature are complete (100%), the feature's overall progress SHALL be considered done and displayed as 100%.
+- Q: How should the feature percentage reflect partial task completion? → A: **Option A** adopted: when `tasks.md` exists and has at least one task, the feature overall progress SHALL be the task completion percentage (e.g. 36/38 → ~95%). When there is no `tasks.md` or no tasks, progress SHALL be computed from stage completion.
 
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 — Visual Development Dashboard (Priority: P1)
 
-A developer opens a workspace that contains a `specs/` directory with one or more feature directories (e.g. `specs/002-api-migration-utilities/`). The extension activates automatically and shows a sidebar panel in the activity bar. The panel displays three SVG ring charts (Stages completed, Tasks completed, Checks completed) for the active feature, a vertical workflow pipeline showing the 8 Spec-Kit stages (Constitution, Specify, Clarify, Plan, Tasks, Checklist, Analyze, Implement) with color-coded status dots, and clickable artifact rows that open the corresponding files in the editor.
+A developer opens a workspace that contains a `specs/` directory with one or more feature directories (e.g. `specs/002-api-migration-utilities/`). The extension activates automatically and shows a sidebar panel in the activity bar. The panel displays three SVG ring charts (Stages completed, Tasks completed, Checks completed) for the active feature, a vertical workflow pipeline showing the 7 Spec-Kit stages (Constitution, Specify, Clarify, Plan, Tasks, Checklist, Implement) with color-coded status dots, and clickable artifact rows that open the corresponding files in the editor.
 
 **Why this priority**: The dashboard is the core value proposition — without it the extension has no purpose.
 
@@ -111,7 +112,7 @@ A developer uses a high-contrast theme or navigates entirely by keyboard. All in
 
 1. **Given** a feature card is focused via Tab, **When** the user presses Enter, **Then** the feature is selected and the dashboard updates.
 2. **Given** the extension is running with a high-contrast theme, **When** viewing the sidebar, **Then** all text is legible, stage dots are distinguishable, and progress rings use theme-appropriate colors.
-3. **Given** a screen reader is active, **When** focus moves to a progress ring, **Then** it announces "Stages: 3 of 8 complete" (or equivalent).
+3. **Given** a screen reader is active, **When** focus moves to a progress ring, **Then** it announces "Stages: 3 of 7 complete" (or equivalent).
 
 ---
 
@@ -145,7 +146,7 @@ The extension is published to the VS Code Marketplace under publisher `summitpat
 
 - **FR-001**: The extension MUST activate automatically when a workspace contains `specs/` or `.specify/` directories.
 - **FR-002**: The extension MUST display a sidebar panel in the activity bar with a custom icon.
-- **FR-003**: The extension MUST parse `specs/###-feature-name/` directories and compute stage status (not-started, in-progress, complete) for each of the 8 Spec-Kit workflow stages.
+- **FR-003**: The extension MUST parse `specs/###-feature-name/` directories and compute stage status (not-started, in-progress, complete) for each of the 7 Spec-Kit workflow stages.
 - **FR-004**: The extension MUST display three SVG progress rings showing completion counts for Stages, Tasks, and Checks.
 - **FR-005**: The extension MUST display a vertical workflow pipeline with color-coded status dots for each stage.
 - **FR-006**: The extension MUST allow clicking artifact rows to open the corresponding file in the editor.
@@ -156,7 +157,7 @@ The extension is published to the VS Code Marketplace under publisher `summitpat
 - **FR-011**: The extension MUST auto-refresh when files in `specs/`, `checklists/`, `contracts/`, `.specify/memory/constitution.md`, or `.git/HEAD` change.
 - **FR-012**: The extension MUST provide a "New Feature" command that creates a feature directory and spec file.
 - **FR-013**: The extension MUST display a status bar item showing the active project, feature, and progress percentage.
-- **FR-013a**: The feature overall progress percentage MUST be 100% when all tasks in `tasks.md` are complete (so that "tasks done" is treated as "feature done" for display).
+- **FR-013a**: When `tasks.md` exists and has tasks, the feature overall progress percentage MUST be derived from task completion (e.g. 36/38 → ~95%); when all tasks are complete it MUST be 100%. When there is no `tasks.md` or no tasks, progress MUST be computed from stage completion.
 - **FR-014**: The extension MUST provide configurable settings for page size, auto-refresh, and status bar visibility.
 - **FR-015**: All interactive WebView elements MUST be keyboard-accessible with `role`, `tabindex`, and `keydown` handlers.
 - **FR-016**: The extension MUST include a `LICENSE` (MIT), `CHANGELOG.md`, and complete marketplace metadata in `package.json`.
@@ -165,16 +166,16 @@ The extension is published to the VS Code Marketplace under publisher `summitpat
 
 - **Project**: A workspace folder that contains `specs/` or `.specify/`. Has a name (folder basename), root path, and a parsed `SpecKitState`.
 - **Feature**: A directory under `specs/` matching the pattern `###-feature-name`. Contains stages, artifacts, and an overall progress score.
-- **Stage**: One of the 8 Spec-Kit workflow stages (Constitution, Specify, Clarify, Plan, Tasks, Checklist, Analyze, Implement). Has a status, label, description, optional file path, and child artifacts.
+- **Stage**: One of the 7 Spec-Kit workflow stages (Constitution, Specify, Clarify, Plan, Tasks, Checklist, Implement). Has a status, label, description, optional file path, and child artifacts.
 - **Artifact**: A file or directory within a feature directory (e.g. `spec.md`, `plan.md`, `contracts/`). Has existence status and optional progress (completed/total checkboxes).
-- **Progress**: A triple of `{ total, completed, percentage }` computed from checkbox parsing or stage completion counting. The **feature overall progress percentage** SHALL be 100% when all tasks in `tasks.md` are complete, so that a feature with all tasks done is displayed as done regardless of stage completion counts.
+- **Progress**: A triple of `{ total, completed, percentage }`. When `tasks.md` exists and has task items, the **feature overall progress** SHALL be the task completion percentage (task-based). When there is no `tasks.md` or no tasks, progress SHALL be computed from stage completion. When all tasks are complete, the feature SHALL display 100%.
 
 ## Success Criteria *(mandatory)*
 
 ### Measurable Outcomes
 
 - **SC-001**: Extension activates in under 500ms for a workspace with 3 projects and 20 total features.
-- **SC-002**: All 8 workflow stages display correct status for a feature with known file states (verified by manual test matrix).
+- **SC-002**: All 7 workflow stages display correct status for a feature with known file states (verified by manual test matrix).
 - **SC-003**: Task and checklist progress counts match actual `- [x]` / `- [ ]` counts in the source files (zero parsing errors).
 - **SC-004**: Switching between projects in a multi-root workspace updates the dashboard in under 200ms.
 - **SC-005**: The VSIX package size is under 200 KB.
@@ -184,7 +185,7 @@ The extension is published to the VS Code Marketplace under publisher `summitpat
 
 ## Assumptions
 
-- The Spec-Kit workflow uses the 8-stage model: Constitution, Specify, Clarify, Plan, Tasks, Checklist, Analyze, Implement.
+- The Spec-Kit workflow uses the 7-stage model: Constitution, Specify, Clarify, Plan, Tasks, Checklist, Implement.
 - Feature directories follow the `###-feature-name` naming convention with zero-padded 3-digit numbers.
 - The `.specify/scripts/bash/create-new-feature.sh` script outputs JSON with `BRANCH_NAME` and `SPEC_FILE` fields when called with `--json`.
 - Git is available on the system and `.git/HEAD` contains a `ref: refs/heads/branch-name` line for branch detection.

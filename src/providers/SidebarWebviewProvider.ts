@@ -869,7 +869,6 @@ export class SidebarWebviewProvider implements vscode.WebviewViewProvider {
       plan: '🗺️',
       tasks: '✅',
       checklist: '☑️',
-      analyze: '🔍',
       implement: '🚀',
     };
     return icons[stage.stage] || '○';
