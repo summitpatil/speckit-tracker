@@ -2,6 +2,12 @@
 
 All notable changes to the **SpecKit - Spec-Driven Development Tracker** extension will be documented in this file.
 
+## [1.0.5] - 2026-05-11
+
+### Added
+- Support colocated nested spec directories such as `specs/ClientAdmin/Utilities/<feature>/` and `specs/Scripts/platform_ops-shared_services-paas/<feature>/` while preserving the original `specs/###-feature/` layout.
+- Active feature detection now matches nested feature paths, branch leaf names, declared `**Branch**` metadata, and ticket IDs such as `DEV-277966`.
+
 ## [1.0.3] - 2026-04-28
 
 ### Changed

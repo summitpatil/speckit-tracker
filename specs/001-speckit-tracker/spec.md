@@ -20,7 +20,7 @@ A developer opens a workspace that contains a `specs/` directory with one or mor
 
 **Why this priority**: The dashboard is the core value proposition — without it the extension has no purpose.
 
-**Independent Test**: Open any workspace with `specs/###-feature/` directories. The sidebar should render progress rings, a workflow pipeline with correct stage statuses, and clicking an artifact should open the file.
+**Independent Test**: Open any workspace with original `specs/###-feature/` directories or colocated `specs/<App>/<DomainFamily>/<feature>/` directories. The sidebar should render progress rings, a workflow pipeline with correct stage statuses, and clicking an artifact should open the file.
 
 **Acceptance Scenarios**:
 
@@ -48,7 +48,7 @@ A developer works in a multi-root VS Code workspace with several repositories (e
 
 ### User Story 3 — Feature Lifecycle Tracking (Priority: P1)
 
-The extension parses each `specs/###-feature-name/` directory to determine which Spec-Kit stages have been completed. It checks for the existence of specific files (`spec.md`, `plan.md`, `tasks.md`, `research.md`, `data-model.md`, `quickstart.md`, `contracts/`, `checklists/`), reads content to detect placeholders vs. real content, and parses checkbox progress (`- [x]` / `- [ ]`) in tasks and checklists. It detects the active feature by matching the current git branch to a feature directory name.
+The extension parses both original `specs/###-feature-name/` directories and colocated `specs/<App>/<DomainFamily>/<feature>/` directories to determine which Spec-Kit stages have been completed. It checks for the existence of specific files (`spec.md`, `plan.md`, `tasks.md`, `research.md`, `data-model.md`, `quickstart.md`, `contracts/`, `checklists/`), reads content to detect placeholders vs. real content, and parses checkbox progress (`- [x]` / `- [ ]`) in tasks and checklists. It detects the active feature by matching the current git branch to the feature path, directory name, declared `**Branch**` metadata, or ticket ID.
 
 **Why this priority**: Accurate parsing is the foundation of all dashboard data; incorrect parsing renders the extension useless.
 
@@ -58,7 +58,7 @@ The extension parses each `specs/###-feature-name/` directory to determine which
 
 1. **Given** `spec.md` exists but contains `[FEATURE NAME]` placeholder, **When** parsed, **Then** the Specify stage shows "in-progress".
 2. **Given** `spec.md` exists with real content (no placeholders), **When** parsed, **Then** the Specify stage shows "complete".
-3. **Given** the current git branch is `002-api-migration-utilities`, **When** parsed, **Then** that feature is selected as active.
+3. **Given** the current git branch is `002-api-migration-utilities` or `feature/DEV-277966-script-host-asg-autoscaling`, **When** parsed, **Then** that feature is selected as active.
 4. **Given** `checklists/requirements.md` has 3 of 5 items checked, **When** parsed, **Then** the Checklist stage shows "in-progress" and the artifact row shows "3/5".
 5. **Given** a feature directory with no `plan.md`, **When** parsed, **Then** the Plan stage shows "not-started" and the `plan.md` artifact row is dimmed and non-clickable.
 
@@ -146,14 +146,14 @@ The extension is published to the VS Code Marketplace under publisher `summitpat
 
 - **FR-001**: The extension MUST activate automatically when a workspace contains `specs/` or `.specify/` directories.
 - **FR-002**: The extension MUST display a sidebar panel in the activity bar with a custom icon.
-- **FR-003**: The extension MUST parse `specs/###-feature-name/` directories and compute stage status (not-started, in-progress, complete) for each of the 7 Spec-Kit workflow stages.
+- **FR-003**: The extension MUST parse both `specs/###-feature-name/` and `specs/<App>/<DomainFamily>/<feature>/` directories and compute stage status (not-started, in-progress, complete) for each of the 7 Spec-Kit workflow stages.
 - **FR-004**: The extension MUST display three SVG progress rings showing completion counts for Stages, Tasks, and Checks.
 - **FR-005**: The extension MUST display a vertical workflow pipeline with color-coded status dots for each stage.
 - **FR-006**: The extension MUST allow clicking artifact rows to open the corresponding file in the editor.
 - **FR-007**: The extension MUST support multi-root workspaces, discovering all folders with `specs/` or `.specify/` and providing a project selector.
 - **FR-008**: The extension MUST provide a search input that filters features by number, name, or branch name (client-side).
 - **FR-009**: The extension MUST implement lazy loading, showing a configurable number of features initially with a "Show More" button.
-- **FR-010**: The extension MUST detect the active feature by matching the current git branch to a feature directory name.
+- **FR-010**: The extension MUST detect the active feature by matching the current git branch to a feature path, feature directory name, declared branch metadata, or ticket ID.
 - **FR-011**: The extension MUST auto-refresh when files in `specs/`, `checklists/`, `contracts/`, `.specify/memory/constitution.md`, or `.git/HEAD` change.
 - **FR-012**: The extension MUST provide a "New Feature" command that creates a feature directory and spec file.
 - **FR-013**: The extension MUST display a status bar item showing the active project, feature, and progress percentage.
@@ -165,7 +165,7 @@ The extension is published to the VS Code Marketplace under publisher `summitpat
 ### Key Entities
 
 - **Project**: A workspace folder that contains `specs/` or `.specify/`. Has a name (folder basename), root path, and a parsed `SpecKitState`.
-- **Feature**: A directory under `specs/` matching the pattern `###-feature-name`. Contains stages, artifacts, and an overall progress score.
+- **Feature**: A directory under `specs/` that contains `spec.md`, either directly under `specs/###-feature-name/` or colocated under `specs/<App>/<DomainFamily>/<feature>/`. Contains stages, artifacts, and an overall progress score.
 - **Stage**: One of the 7 Spec-Kit workflow stages (Constitution, Specify, Clarify, Plan, Tasks, Checklist, Implement). Has a status, label, description, optional file path, and child artifacts.
 - **Artifact**: A file or directory within a feature directory (e.g. `spec.md`, `plan.md`, `contracts/`). Has existence status and optional progress (completed/total checkboxes).
 - **Progress**: A triple of `{ total, completed, percentage }`. When `tasks.md` exists and has task items, the **feature overall progress** SHALL be the task completion percentage (task-based). When there is no `tasks.md` or no tasks, progress SHALL be computed from stage completion. When all tasks are complete, the feature SHALL display 100%.
@@ -186,7 +186,7 @@ The extension is published to the VS Code Marketplace under publisher `summitpat
 ## Assumptions
 
 - The Spec-Kit workflow uses the 7-stage model: Constitution, Specify, Clarify, Plan, Tasks, Checklist, Implement.
-- Feature directories follow the `###-feature-name` naming convention with zero-padded 3-digit numbers.
+- Feature directories may follow the original `###-feature-name` naming convention or the colocated `<App>/<DomainFamily>/<feature>` convention; ticket-prefixed names like `DEV-277966-script-host-asg-autoscaling` are supported.
 - The `.specify/scripts/bash/create-new-feature.sh` script outputs JSON with `BRANCH_NAME` and `SPEC_FILE` fields when called with `--json`.
 - Git is available on the system and `.git/HEAD` contains a `ref: refs/heads/branch-name` line for branch detection.
 - The extension targets VS Code 1.85+ and compatible editors (Cursor, VSCodium).

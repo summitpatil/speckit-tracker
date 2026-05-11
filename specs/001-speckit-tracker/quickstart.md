@@ -127,7 +127,7 @@ There are no automated tests yet. Testing is manual:
 | **Lazy loading** | Have 15+ features | "Show More" button appears after 10 |
 | **Multi-project** | Open multi-root workspace | Project dropdown shows qualifying folders |
 | **Project switch** | Select different project | Features and progress update |
-| **Git detection** | Check out `###-feature` branch | That feature auto-selects |
+| **Git detection** | Check out `###-feature` or `feature/DEV-123-example` branch | That feature auto-selects |
 | **Auto-refresh** | Edit `tasks.md` (add `[x]`) | Progress rings update within 1 second |
 | **New Feature** | Click "+ New", enter description | Directory created, spec.md opens |
 | **Status bar** | Look at bottom of editor | Shows `project / feature %` |

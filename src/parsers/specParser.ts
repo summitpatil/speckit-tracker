@@ -19,27 +19,7 @@ export class SpecParser {
     const hasSpecsDir = fs.existsSync(specsDir);
     const hasSpecifyDir = fs.existsSync(specifyDir);
 
-    const features: FeatureInfo[] = [];
-
-    if (hasSpecsDir) {
-      try {
-        const entries = fs.readdirSync(specsDir, { withFileTypes: true });
-        for (const entry of entries) {
-          if (entry.isDirectory() && /^\d{3}-/.test(entry.name)) {
-            try {
-              const featureDir = path.join(specsDir, entry.name);
-              const feature = this.parseFeature(entry.name, featureDir);
-              features.push(feature);
-            } catch {
-              // Skip individual features that fail to parse
-            }
-          }
-        }
-        features.sort((a, b) => parseInt(b.number) - parseInt(a.number));
-      } catch {
-        // specs/ directory may have been deleted or is inaccessible
-      }
-    }
+    const features = hasSpecsDir ? this.discoverFeatures(specsDir) : [];
 
     const activeFeature = this.detectActiveFeature(features);
 
@@ -50,6 +30,60 @@ export class SpecParser {
       hasSpecifyDir,
       hasSpecsDir,
     };
+  }
+
+  private discoverFeatures(specsDir: string): FeatureInfo[] {
+    const features: FeatureInfo[] = [];
+
+    try {
+      for (const candidate of this.findFeatureDirs(specsDir)) {
+        try {
+          features.push(this.parseFeature(candidate.dirName, candidate.featureDir, candidate.relativeSpecPath));
+        } catch {
+          // Skip individual features that fail to parse
+        }
+      }
+    } catch {
+      // specs/ directory may have been deleted or is inaccessible
+    }
+
+    return features.sort((a, b) => this.compareFeatures(a, b));
+  }
+
+  private findFeatureDirs(
+    specsDir: string,
+  ): Array<{ dirName: string; featureDir: string; relativeSpecPath: string }> {
+    const candidates: Array<{ dirName: string; featureDir: string; relativeSpecPath: string }> = [];
+    const maxDepth = 5;
+
+    const walk = (currentDir: string, depth: number): void => {
+      if (depth > maxDepth) { return; }
+
+      let entries: fs.Dirent[];
+      try {
+        entries = fs.readdirSync(currentDir, { withFileTypes: true });
+      } catch {
+        return;
+      }
+
+      const hasSpecFile = entries.some(entry => entry.isFile() && entry.name === 'spec.md');
+      if (currentDir !== specsDir && hasSpecFile) {
+        candidates.push({
+          dirName: path.basename(currentDir),
+          featureDir: currentDir,
+          relativeSpecPath: this.toPosixPath(path.relative(specsDir, currentDir)),
+        });
+        return;
+      }
+
+      for (const entry of entries) {
+        if (!entry.isDirectory() || entry.name.startsWith('.')) { continue; }
+        walk(path.join(currentDir, entry.name), depth + 1);
+      }
+    };
+
+    walk(specsDir, 0);
+    return candidates;
   }
 
   private detectActiveFeature(features: FeatureInfo[]): FeatureInfo | undefined {
@@ -72,7 +106,23 @@ export class SpecParser {
       const match = features.find(f => f.branchName === currentBranch);
       if (match) { return match; }
 
-      const prefix = currentBranch.match(/^(\d{3})-/);
+      const branchLeaf = currentBranch.split('/').pop() ?? currentBranch;
+      const byLeaf = features.find(f => path.basename(f.branchName) === branchLeaf);
+      if (byLeaf) { return byLeaf; }
+
+      const byDeclaredBranch = features.find(f => this.readDeclaredBranch(f.specDir) === currentBranch);
+      if (byDeclaredBranch) { return byDeclaredBranch; }
+
+      const ticket = currentBranch.match(/[A-Z]+-\d+/i);
+      if (ticket) {
+        const ticketId = ticket[0].toLowerCase();
+        const byTicket = features.find(f =>
+          f.number.toLowerCase() === ticketId || f.branchName.toLowerCase().includes(ticketId),
+        );
+        if (byTicket) { return byTicket; }
+      }
+
+      const prefix = branchLeaf.match(/^(\d{3})-/);
       if (prefix) {
         const byPrefix = features.find(f => f.number === prefix[1]);
         if (byPrefix) { return byPrefix; }
@@ -82,10 +132,12 @@ export class SpecParser {
     return features[0];
   }
 
-  private parseFeature(dirName: string, featureDir: string): FeatureInfo {
-    const match = dirName.match(/^(\d{3})-(.+)$/);
-    const number = match ? match[1] : '000';
-    const name = match ? match[2].replace(/-/g, ' ') : dirName;
+  private parseFeature(dirName: string, featureDir: string, relativeSpecPath = dirName): FeatureInfo {
+    const numberedMatch = dirName.match(/^(\d{3})-(.+)$/);
+    const ticketMatch = dirName.match(/^([A-Z]+-\d+)-(.+)$/i);
+    const number = numberedMatch?.[1] ?? ticketMatch?.[1] ?? 'SPEC';
+    const nameSource = numberedMatch?.[2] ?? ticketMatch?.[2] ?? dirName;
+    const name = nameSource.replace(/[-_]/g, ' ');
 
     const stages = this.parseStages(featureDir);
     let overallProgress = this.computeOverallProgress(stages);
@@ -101,7 +153,7 @@ export class SpecParser {
     return {
       name,
       number,
-      branchName: dirName,
+      branchName: relativeSpecPath,
       specDir: featureDir,
       stages,
       overallProgress,
@@ -250,6 +302,16 @@ export class SpecParser {
     }
   }
 
+  private readDeclaredBranch(featureDir: string): string | undefined {
+    try {
+      const content = fs.readFileSync(path.join(featureDir, 'spec.md'), 'utf-8');
+      const match = content.match(/\*\*(?:Feature Branch|Branch)\*\*:\s*`([^`]+)`/);
+      return match?.[1];
+    } catch {
+      return undefined;
+    }
+  }
+
   private hasClarificationSection(specPath: string): boolean {
     if (!fs.existsSync(specPath)) { return false; }
     try {
@@ -316,6 +378,26 @@ export class SpecParser {
     } catch {
       return false;
     }
+  }
+
+  private compareFeatures(a: FeatureInfo, b: FeatureInfo): number {
+    const aSort = this.getFeatureSortValue(a);
+    const bSort = this.getFeatureSortValue(b);
+
+    if (aSort !== undefined && bSort !== undefined && aSort !== bSort) {
+      return bSort - aSort;
+    }
+
+    return b.branchName.localeCompare(a.branchName);
+  }
+
+  private getFeatureSortValue(feature: FeatureInfo): number | undefined {
+    const match = feature.number.match(/\d+/);
+    return match ? parseInt(match[0], 10) : undefined;
+  }
+
+  private toPosixPath(filePath: string): string {
+    return filePath.split(path.sep).join('/');
   }
 
   private computeOverallProgress(stages: StageInfo[]): ProgressInfo {

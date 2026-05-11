@@ -743,7 +743,7 @@ export class SidebarWebviewProvider implements vscode.WebviewViewProvider {
   private _featureCard(f: FeatureInfo, isActive: boolean): string {
     const pct = f.overallProgress.percentage;
     const searchText = `${f.number} ${f.name} ${f.branchName}`;
-    return `<div class="feature-card ${isActive ? 'active' : ''}" data-feature="${f.branchName}" data-search="${this._esc(searchText)}" role="button" tabindex="0" aria-label="Feature ${f.number}: ${this._esc(f.name)}, ${pct}% complete">
+    return `<div class="feature-card ${isActive ? 'active' : ''}" data-feature="${this._esc(f.branchName)}" data-search="${this._esc(searchText)}" role="button" tabindex="0" aria-label="Feature ${f.number}: ${this._esc(f.name)}, ${pct}% complete">
       <span class="feature-number">${f.number}</span>
       <span class="feature-name">${this._esc(f.name)}</span>
       <span class="feature-pct">${pct}%</span>

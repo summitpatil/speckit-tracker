@@ -87,10 +87,10 @@ speckit-vscode/
 Activation
   ├─ discoverProjectRoots()     → string[] of workspace folders with specs/ or .specify/
   ├─ new SpecParser(root)       → parses each root into SpecKitState
-  │   ├─ parseWorkspace()       → scans specs/###-*/ directories
+  │   ├─ parseWorkspace()       → scans specs/ recursively for directories containing spec.md
   │   ├─ parseFeature()         → reads files, computes stages
   │   ├─ parseStages()          → checks file existence, reads content, counts checkboxes
-  │   └─ detectActiveFeature()  → matches .git/HEAD branch to feature dir
+  │   └─ detectActiveFeature()  → matches .git/HEAD branch to feature path, declared branch, or ticket ID
   ├─ MultiProjectState          → aggregates all ProjectInfo objects
   └─ SidebarWebviewProvider     → generates HTML from MultiProjectState
       ├─ _projectSwitcher()     → dropdown or static project display
