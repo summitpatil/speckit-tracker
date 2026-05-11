@@ -12,6 +12,7 @@ Track feature specifications, implementation plans, tasks, and checklists across
 - Automatically discovers all workspace folders containing `specs/` or `.specify/`
 - Project selector dropdown to switch between repos
 - Each project maintains its own feature list and active feature selection
+- Supports both original `specs/###-feature/` directories and colocated nested specs such as `specs/ClientAdmin/Utilities/<feature>/`
 
 ### Feature Search & Lazy Loading
 - Search input to filter features by number, name, or branch name
@@ -31,7 +32,7 @@ Track feature specifications, implementation plans, tasks, and checklists across
 | Stage | Command | Key Artifacts |
 |-------|---------|---------------|
 | Constitution | `/speckit.constitution` | `.specify/memory/constitution.md` |
-| Specify | `/speckit.specify` | `specs/###-feature/spec.md` |
+| Specify | `/speckit.specify` | `specs/###-feature/spec.md` or `specs/<App>/<DomainFamily>/<feature>/spec.md` |
 | Clarify | `/speckit.clarify` | `## Clarifications` section in spec.md |
 | Plan | `/speckit.plan` | `plan.md`, `research.md`, `data-model.md`, `quickstart.md`, `contracts/` |
 | Tasks | `/speckit.tasks` | `tasks.md` |

@@ -85,20 +85,20 @@ interface StageInfo {
 
 ### FeatureInfo
 
-Represents a single feature directory (`specs/###-feature-name/`).
+Represents a single feature directory discovered by `spec.md`, either `specs/###-feature-name/` or a colocated path like `specs/ClientAdmin/Utilities/<feature>/`.
 
 ```typescript
 interface FeatureInfo {
   name: string;             // Human-readable: "api migration utilities" (from dir name, dashes replaced)
-  number: string;           // Zero-padded 3-digit: "002"
-  branchName: string;       // Full dir name: "002-api-migration-utilities"
+  number: string;           // "002", ticket ID like "DEV-277966", or "SPEC"
+  branchName: string;       // Relative specs path, e.g. "002-api-migration-utilities" or "ClientAdmin/Utilities/DEV-123-example"
   specDir: string;          // Absolute path to the feature directory
   stages: StageInfo[];      // Array of 7 StageInfo objects
   overallProgress: ProgressInfo;  // Stages completed out of total stages
 }
 ```
 
-**Sorting**: Features are sorted by number descending (newest first).
+**Sorting**: Features are sorted by numeric identifier descending (newest first), then by relative specs path.
 
 ### SpecKitState
 
@@ -107,8 +107,8 @@ The parsed state of a single project (workspace folder).
 ```typescript
 interface SpecKitState {
   workspaceRoot: string;        // Absolute path to the workspace folder
-  features: FeatureInfo[];      // All parsed features, sorted by number desc
-  activeFeature?: FeatureInfo;  // Feature matching current git branch, or highest number
+  features: FeatureInfo[];      // All parsed features, sorted by numeric identifier and path
+  activeFeature?: FeatureInfo;  // Feature matching current git branch, declared branch, ticket ID, or newest parsed feature
   hasSpecifyDir: boolean;       // fs.existsSync(root + '/.specify')
   hasSpecsDir: boolean;         // fs.existsSync(root + '/specs')
 }
@@ -149,7 +149,7 @@ MultiProjectState
               ├── hasSpecifyDir
               ├── hasSpecsDir
               ├── activeFeature ──→ FeatureInfo (reference into features[])
-              └── FeatureInfo[]     (1:N — one per specs/###-*/ directory)
+              └── FeatureInfo[]     (1:N — one per discovered feature directory containing spec.md)
                     ├── name, number, branchName, specDir
                     ├── overallProgress: ProgressInfo
                     └── StageInfo[]  (always 7 — one per WorkflowStage)

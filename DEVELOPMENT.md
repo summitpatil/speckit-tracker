@@ -147,7 +147,7 @@ activate()
 refresh()
   → for each project root:
       → new SpecParser(root).parseWorkspace()
-        → scan specs/ for ###-feature directories
+        → scan specs/ recursively for feature directories containing spec.md
         → for each feature: parseStages()
           → check existence of spec.md, plan.md, tasks.md, etc.
           → parse [x]/[ ] checkboxes for progress
@@ -187,7 +187,7 @@ Defines all data structures. No logic. Key types:
 | `StageInfo` | One workflow stage with status, file path, and nested artifacts |
 | `ArtifactInfo` | One file (e.g., `plan.md`) with existence flag and optional progress |
 | `ProgressInfo` | `{ total, completed, percentage }` |
-| `FeatureInfo` | One `###-feature-name` directory with all its stages |
+| `FeatureInfo` | One original or colocated feature directory with all its stages |
 | `SpecKitState` | All features for one project root |
 | `ProjectInfo` | One project (name + root path + SpecKitState) |
 | `MultiProjectState` | All projects + which one is active |
@@ -198,10 +198,11 @@ Pure read-only file system scanner. One class: `SpecParser`.
 
 Key methods:
 - `parseWorkspace()` — entry point, scans `specs/` directory
-- `parseFeature()` — builds `FeatureInfo` for one `###-feature/` directory
+- `discoverFeatures()` — recursively finds original `specs/###-feature/` and colocated `specs/<App>/<DomainFamily>/<feature>/` directories by `spec.md`
+- `parseFeature()` — builds `FeatureInfo` for one feature directory
 - `parseStages()` — checks existence of each artifact, determines stage status
 - `parseTaskProgress()` — regex counts `- [x]` vs `- [ ]` in a markdown file
-- `detectActiveFeature()` — reads `.git/HEAD` to find current branch, matches to feature
+- `detectActiveFeature()` — reads `.git/HEAD` to find current branch, matches to feature path, declared branch, or ticket ID
 - `getSpecStatus()` — checks if spec.md still has template placeholders
 
 ### `src/extension.ts`

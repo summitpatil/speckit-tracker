@@ -45,7 +45,7 @@
 
 **Goal**: Render progress rings, workflow pipeline, and artifact rows in the WebView sidebar.
 
-**Independent Test**: Open a workspace with `specs/###-feature/` containing known files. Verify rings show correct counts, pipeline shows correct stage statuses, artifact clicks open files.
+**Independent Test**: Open a workspace with `specs/###-feature/` or `specs/<App>/<DomainFamily>/<feature>/` containing known files. Verify rings show correct counts, pipeline shows correct stage statuses, artifact clicks open files.
 
 ### Implementation
 
